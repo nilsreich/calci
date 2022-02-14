@@ -1,306 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <style>
-        body {
-            font-family: Roboto;
-            margin: 0;
-            background-color: white;
-        }
+    <link rel="stylesheet" href="index.css" />
+  </head>
 
-        .calculator {
-            display: flex;
-            flex-direction: column;
-            width: 100vw;
-            height: 100vh;
-        }
-
-        .screen {
-            background-color: hsla(214, 59%, 76%, 0.3);
-            border: 0px solid;
-            border-bottom-left-radius: 25px;
-            border-bottom-right-radius: 25px;
-            text-align: end;
-            font-size: clamp(1rem, 30vw, 8rem);
-            flex-grow: 1;
-            min-height: 150px;
-            width: 100%;
-            overflow: auto;
-        }
-
-        .history{
-
-            padding-top: 5px;
-            text-align: end;
-            font-size: clamp(0.5rem, 30vw, 3rem);
-            flex-grow: 1;
-            width: 100%;
-            overflow: auto;
-        }
-
-        .keyboard {
-            font-size: clamp(1rem, 10vw, 2rem);
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            place-items: center;
-            gap: 8px;
-            padding: 10px;
-            min-height: 418px;
-        }
-
-        .extrafunction {
-            font-size: clamp(0.3rem, 10vw, 1rem);
-            display: grid;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            grid-template-columns: repeat(4, 1fr);
-            place-items: center;
-        }
-
-
-        .key {
-            width: 100%;
-            height: 100%;
-            display: grid;
-            place-items: center;
-            background-color: rgba(236, 239, 244, 0.7);
-            color: black;
-            border: 0px solid;
-            border-radius: 5px
-        }
-
-        @media (min-width: 350px) and (max-width: 470px) {
-            .key {
-                aspect-ratio: 1;
-                height: unset;
-                border-radius: 50%
-            }
-        }
-
-        .fcn {
-            background-color: hsla(210, 100%, 79%, .5)
-        }
-
-        .ac {
-            background-color: hsla(179, 100%, 65%, 0.2)
-        }
-
-
-        .eqn {
-            background-color: hsla(279, 51%, 76%, 0.5)
-        }
-
-        /* Ripple effect */
-        .ripple {
-            background-position: center;
-            transition: background 0.8s;
-        }
-
-        .ripple:hover {
-            background: hsla(214, 59%, 76%, 0.3) radial-gradient(circle, transparent 1%, hsla(214, 59%, 76%, 1) 1%) center/15000%;
-        }
-
-        .ripple:active {
-            background-color: #6eb9f7;
-            background-size: 100%;
-            transition: background 0s;
-        }
-        .extrakey{
-            padding-top: 5px;
-            font-weight: 700;
-            font-size: 1.3rem;
-        }
-    </style>
-</head>
-
-<body>
+  <body>
     <div class="calculator">
-        <div id='screen' class="screen">
-            <div id="input_screen"></div>
-            <div id="history" class="history"></div>
+      <div id="screen" class="screen">
+        <div id="input_screen"></div>
+        <div id="history" class="history"></div>
+      </div>
+      <div class="extrafunction">
+        <div class="extrakey">
+          x<span style="font-size:0.9rem;vertical-align:top">n</span>
         </div>
-        <div class="extrafunction">
-            <div class="extrakey">x<span style="font-size:0.9rem;vertical-align:top">n</span></div>
-            <div class="extrakey">DEG</div>
-            <div class="extrakey">Pi</div>
-            <div class="extrakey">sqrt</div>
-        </div>
+        <div class="extrakey">DEG</div>
+        <div class="extrakey">Pi</div>
+        <div class="extrakey">sqrt</div>
+      </div>
 
-        <div class="keyboard">
-            <div class="key ac ripple">
-                AC
-            </div>
-            <div class="key bracket fcn ripple">
-                (
-            </div>
-            <div class="bracket key fcn ripple">
-                )
-            </div>
-            <div class="num key fcn ripple">
-                /
-            </div>
-            <div class="num key ripple">
-                7
-            </div>
-            <div class="num key ripple">
-                8
-            </div>
-            <div class="num key ripple">
-                9
-            </div>
-            <div class="key times fcn ripple">
-                &times;
-            </div>
-            <div class="num key ripple">
-                4
-            </div>
-            <div class="num key ripple">
-                5
-            </div>
-            <div class="num key ripple">
-                6
-            </div>
-            <div class="minus key fcn ripple">
-                &minus;
-            </div>
-            <div class="num key ripple">
-                1
-            </div>
-            <div class="num key ripple">
-                2
-            </div>
-            <div class="num key ripple">
-                3
-            </div>
-            <div class="num key fcn ripple">
-                +
-            </div>
-            <div class="num key ripple">
-                0
-            </div>
-            <div class="num key ripple">
-                .
-            </div>
-            <div class="rem key ripple">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" style="width:32px" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M12 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M3 12l6.414 6.414a2 2 0 001.414.586H19a2 2 0 002-2V7a2 2 0 00-2-2h-8.172a2 2 0 00-1.414.586L3 12z" />
-                </svg>
-            </div>
-            <div class="key eqn ripple">
-                =
-            </div>
+      <div class="keyboard">
+        <div class="key ac ripple">AC</div>
+        <div class="key bracket fcn ripple">(</div>
+        <div class="bracket key fcn ripple">)</div>
+        <div class="num key fcn ripple">/</div>
+        <div class="num key ripple">7</div>
+        <div class="num key ripple">8</div>
+        <div class="num key ripple">9</div>
+        <div class="key times fcn ripple">&times;</div>
+        <div class="num key ripple">4</div>
+        <div class="num key ripple">5</div>
+        <div class="num key ripple">6</div>
+        <div class="minus key fcn ripple">&minus;</div>
+        <div class="num key ripple">1</div>
+        <div class="num key ripple">2</div>
+        <div class="num key ripple">3</div>
+        <div class="num key fcn ripple">+</div>
+        <div class="num key ripple">0</div>
+        <div class="num key ripple">.</div>
+        <div class="rem key ripple">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            style="width:32px"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M3 12l6.414 6.414a2 2 0 001.414.586H19a2 2 0 002-2V7a2 2 0 00-2-2h-8.172a2 2 0 00-1.414.586L3 12z"
+            />
+          </svg>
         </div>
+        <div class="key eqn ripple">=</div>
+      </div>
     </div>
-    <script>
-        //Variables
-        let screen = document.getElementById('input_screen')
-        let history_screen = document.getElementById('history')
-        let input = []
-        let history = []
-        //EventListener
-        //Number + / %
-        let num_btns = document.querySelectorAll('.num')
-        num_btns.forEach(item => {
-            item.addEventListener('click', event => {
-                pressed(item.innerText)
-            })
-        })
-
-        //times
-        let times_btn = document.querySelectorAll('.times')[0]
-        times_btn.addEventListener('click', () => pressed('*'))
-
-        //Bracket open
-        let bracket_btn_open = document.querySelectorAll('.bracket')[0]
-        bracket_btn_open.addEventListener('click', () => pressed('('))
-
-        //Bracket close
-        let bracket_btn_close = document.querySelectorAll('.bracket')[1]
-        bracket_btn_close.addEventListener('click', () => pressed(')'))
-
-        //substract
-        let sub_btn = document.querySelectorAll('.minus')[0]
-        sub_btn.addEventListener('click', () => pressed('-'))
-
-        //Remove Button
-        let rem_btn = document.getElementsByClassName('rem')[0]
-        rem_btn.addEventListener('click', () => rem())
-
-        //eqn Button
-        let eqn_btn = document.getElementsByClassName('eqn')[0]
-        eqn_btn.addEventListener('click', () => solve())
-
-        // AC Button
-        let ac_btn = document.getElementsByClassName('ac')[0]
-        ac_btn.addEventListener('click', () => clear())
-
-        // KeyDown
-        document.addEventListener('keydown', logKey);
-
-
-
-        //Functions
-        function pressed(num) {
-            input.push(num)
-            update_inputscreen()
-        }
-
-        function update_inputscreen() {
-            let string = input.toString();
-            let withoutCommas = string.replaceAll(',', '');
-            let formatTimesSign = withoutCommas.replaceAll('*', '×');
-            let formatMinusSign = formatTimesSign.replaceAll('-', '−');
-            screen.innerText = formatMinusSign
-        }
-
-        function update_historyscreen() {
-            let string = history.slice(-1).toString();
-            let withoutCommas = string.replaceAll(',', '');
-            let complete_string = withoutCommas+'='+math.evaluate(withoutCommas)
-            let formatTimesSign = complete_string.replaceAll('*', '×');
-            let formatMinusSign = formatTimesSign.replaceAll('-', '−');
-            let div = document.createElement("div")
-            history_screen.prepend(formatMinusSign, div)
-        }
-
-        function rem() {
-            input.pop()
-            update_inputscreen()
-        }
-
-        function solve() {
-            let string = input.toString();
-            let withoutCommas = string.replaceAll(',', '');
-            let result = math.evaluate(withoutCommas);
-            if (result === undefined) result = 'error'
-            screen.innerText = result
-            history.push(withoutCommas)
-            update_historyscreen()
-            input = []
-        }
-
-
-        function clear() {
-            input = []
-            update_inputscreen()
-        }
-
-        function logKey(e) {
-            let regex = /[\d\+\-\*\(\)]/g;
-            if (e.key.match(regex)) { pressed(e.key) }
-            if (e.key === 'Enter') { solve() }
-            if (e.key === 'Backspace') { rem() }
-        }
-    </script>
-      <script src="math.js" type="text/javascript"></script>
-
-</body>
-
+    <script src="./index.js"></script>
+    <script src="math.js" type="text/javascript" defer></script>
+  </body>
 </html>
