@@ -1,0 +1,11 @@
+{
+  "background_color": "#ffffff",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "calci-kappa.vercel",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "calci-kappa.vercel",
+  "start_url": "/",
+  "theme_color": "#ffffff"
+}
