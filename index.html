@@ -25,11 +25,20 @@
             border: 0px solid;
             border-bottom-left-radius: 25px;
             border-bottom-right-radius: 25px;
-            padding: 5px;
             text-align: end;
             font-size: clamp(1rem, 30vw, 8rem);
             flex-grow: 1;
             min-height: 150px;
+            width: 100%;
+            overflow: auto;
+        }
+
+        .history{
+
+            padding-top: 5px;
+            text-align: end;
+            font-size: clamp(0.5rem, 30vw, 3rem);
+            flex-grow: 1;
             width: 100%;
             overflow: auto;
         }
@@ -42,6 +51,15 @@
             gap: 8px;
             padding: 10px;
             min-height: 418px;
+        }
+
+        .extrafunction {
+            font-size: clamp(0.3rem, 10vw, 1rem);
+            display: grid;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            grid-template-columns: repeat(4, 1fr);
+            place-items: center;
         }
 
 
@@ -92,28 +110,41 @@
             background-size: 100%;
             transition: background 0s;
         }
+        .extrakey{
+            padding-top: 5px;
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
     </style>
 </head>
 
 <body>
     <div class="calculator">
         <div id='screen' class="screen">
-            3-4
+            <div id="input_screen"></div>
+            <div id="history" class="history"></div>
         </div>
+        <div class="extrafunction">
+            <div class="extrakey">x<span style="font-size:0.9rem;vertical-align:top">n</span></div>
+            <div class="extrakey">DEG</div>
+            <div class="extrakey">Pi</div>
+            <div class="extrakey">sqrt</div>
+        </div>
+
         <div class="keyboard">
             <div class="key ac ripple">
                 AC
             </div>
             <div class="key bracket fcn ripple">
-                ()
+                (
             </div>
-            <div class="num key fcn ripple">
-                %
+            <div class="bracket key fcn ripple">
+                )
             </div>
             <div class="num key fcn ripple">
                 /
             </div>
-            <div id='seven' class="num key ripple">
+            <div class="num key ripple">
                 7
             </div>
             <div class="num key ripple">
@@ -169,9 +200,10 @@
     </div>
     <script>
         //Variables
-        let screen = document.getElementById('screen')
+        let screen = document.getElementById('input_screen')
+        let history_screen = document.getElementById('history')
         let input = []
-
+        let history = []
         //EventListener
         //Number + / %
         let num_btns = document.querySelectorAll('.num')
@@ -185,9 +217,13 @@
         let times_btn = document.querySelectorAll('.times')[0]
         times_btn.addEventListener('click', () => pressed('*'))
 
-        //Bracket
-        let bracket_btn = document.querySelectorAll('.bracket')[0]
-        bracket_btn.addEventListener('click', () => insert_bracket())
+        //Bracket open
+        let bracket_btn_open = document.querySelectorAll('.bracket')[0]
+        bracket_btn_open.addEventListener('click', () => pressed('('))
+
+        //Bracket close
+        let bracket_btn_close = document.querySelectorAll('.bracket')[1]
+        bracket_btn_close.addEventListener('click', () => pressed(')'))
 
         //substract
         let sub_btn = document.querySelectorAll('.minus')[0]
@@ -213,16 +249,10 @@
         //Functions
         function pressed(num) {
             input.push(num)
-            update_screen()
+            update_inputscreen()
         }
 
-        function insert_bracket() {
-            let not_num = ['+', '−', '%', '/', '×']
-            let last_sign = input.slice(-1).toString()
-            if (not_num.includes(last_sign)) { pressed('(') }
-            else { pressed(')') }
-        }
-        function update_screen() {
+        function update_inputscreen() {
             let string = input.toString();
             let withoutCommas = string.replaceAll(',', '');
             let formatTimesSign = withoutCommas.replaceAll('*', '×');
@@ -230,25 +260,40 @@
             screen.innerText = formatMinusSign
         }
 
+        function update_historyscreen() {
+            let string = history.slice(-1).toString();
+            let withoutCommas = string.replaceAll(',', '');
+            let complete_string = withoutCommas+'='+math.evaluate(withoutCommas)
+            let formatTimesSign = complete_string.replaceAll('*', '×');
+            let formatMinusSign = formatTimesSign.replaceAll('-', '−');
+            let div = document.createElement("div")
+            history_screen.prepend(formatMinusSign, div)
+        }
+
         function rem() {
             input.pop()
-            update_screen()
+            update_inputscreen()
         }
 
         function solve() {
             let string = input.toString();
             let withoutCommas = string.replaceAll(',', '');
-            screen.innerText = math.evaluate(withoutCommas)
+            let result = math.evaluate(withoutCommas);
+            if (result === undefined) result = 'error'
+            screen.innerText = result
+            history.push(withoutCommas)
+            update_historyscreen()
             input = []
         }
+
 
         function clear() {
             input = []
-            update_screen()
+            update_inputscreen()
         }
 
         function logKey(e) {
-            let regex = /[\d\+\-\*]/g;
+            let regex = /[\d\+\-\*\(\)]/g;
             if (e.key.match(regex)) { pressed(e.key) }
             if (e.key === 'Enter') { solve() }
             if (e.key === 'Backspace') { rem() }
