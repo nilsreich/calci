@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Roboto;
+            margin: 0;
+            background-color: white;
+        }
+
+        .calculator {
+            display: flex;
+            flex-direction: column;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .screen {
+            background-color: hsla(214, 59%, 76%, 0.3);
+            border: 0px solid;
+            border-bottom-left-radius: 25px;
+            border-bottom-right-radius: 25px;
+            padding: 5px;
+            text-align: end;
+            font-size: clamp(1rem, 30vw, 8rem);
+            flex-grow: 1;
+            min-height: 150px;
+        }
+
+        .keyboard {
+            font-size: clamp(1rem, 10vw, 2rem);
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            place-items: center;
+            gap: 8px;
+            padding: 10px;
+            min-height: 418px;
+        }
+
+
+        .key {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            place-items: center;
+            background-color: rgba(236, 239, 244, 0.7);
+            color: black;
+            border: 0px solid;
+            border-radius: 5px
+        }
+
+        @media (min-width: 350px) and (max-width: 470px) {
+            .key {
+                aspect-ratio: 1;
+                height: unset;
+                border-radius: 50%
+            }
+        }
+
+        .fcn {
+            background-color: hsla(210, 100%, 79%, .5)
+        }
+
+        .ac {
+            background-color: hsla(179, 100%, 65%, 0.2)
+        }
+
+
+        .eqn {
+            background-color: hsla(279, 51%, 76%, 0.5)
+        }
+
+        /* Ripple effect */
+        .ripple {
+            background-position: center;
+            transition: background 0.8s;
+        }
+
+        .ripple:hover {
+            background: hsla(214, 59%, 76%, 0.3) radial-gradient(circle, transparent 1%, hsla(214, 59%, 76%, 1) 1%) center/15000%;
+        }
+
+        .ripple:active {
+            background-color: #6eb9f7;
+            background-size: 100%;
+            transition: background 0s;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="calculator">
+        <div id='screen' class="screen">
+            3-4
+        </div>
+        <div class="keyboard">
+            <div class="key ac ripple">
+                AC
+            </div>
+            <div class="key bracket fcn ripple">
+                ()
+            </div>
+            <div class="num key fcn ripple">
+                %
+            </div>
+            <div class="num key fcn ripple">
+                /
+            </div>
+            <div id='seven' class="num key ripple">
+                7
+            </div>
+            <div class="num key ripple">
+                8
+            </div>
+            <div class="num key ripple">
+                9
+            </div>
+            <div class="key times fcn ripple">
+                &times;
+            </div>
+            <div class="num key ripple">
+                4
+            </div>
+            <div class="num key ripple">
+                5
+            </div>
+            <div class="num key ripple">
+                6
+            </div>
+            <div class="minus key fcn ripple">
+                &minus;
+            </div>
+            <div class="num key ripple">
+                1
+            </div>
+            <div class="num key ripple">
+                2
+            </div>
+            <div class="num key ripple">
+                3
+            </div>
+            <div class="num key fcn ripple">
+                +
+            </div>
+            <div class="num key ripple">
+                0
+            </div>
+            <div class="num key ripple">
+                .
+            </div>
+            <div class="rem key ripple">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" style="width:32px" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M3 12l6.414 6.414a2 2 0 001.414.586H19a2 2 0 002-2V7a2 2 0 00-2-2h-8.172a2 2 0 00-1.414.586L3 12z" />
+                </svg>
+            </div>
+            <div class="key eqn ripple">
+                =
+            </div>
+        </div>
+    </div>
+    <script>
+        //Variables
+        let screen = document.getElementById('screen')
+        let input = []
+
+        //EventListener
+        //Number + / %
+        let num_btns = document.querySelectorAll('.num')
+        num_btns.forEach(item => {
+            item.addEventListener('click', event => {
+                pressed(item.innerText)
+            })
+        })
+
+        //times
+        let times_btn = document.querySelectorAll('.times')[0]
+        times_btn.addEventListener('click', () => pressed('*'))
+
+        //Bracket
+        let bracket_btn = document.querySelectorAll('.bracket')[0]
+        bracket_btn.addEventListener('click', () => insert_bracket())
+
+        //substract
+        let sub_btn = document.querySelectorAll('.minus')[0]
+        sub_btn.addEventListener('click', () => pressed('-'))
+
+        //Remove Button
+        let rem_btn = document.getElementsByClassName('rem')[0]
+        rem_btn.addEventListener('click', () => rem())
+
+        //eqn Button
+        let eqn_btn = document.getElementsByClassName('eqn')[0]
+        eqn_btn.addEventListener('click', () => solve())
+
+        // AC Button
+        let ac_btn = document.getElementsByClassName('ac')[0]
+        ac_btn.addEventListener('click', () => clear())
+
+        // KeyDown
+        document.addEventListener('keydown', logKey);
+
+
+
+        //Functions
+        function pressed(num) {
+            input.push(num)
+            update_screen()
+        }
+
+        function insert_bracket() {
+            let not_num = ['+', '−', '%', '/', '×']
+            let last_sign = input.slice(-1).toString()
+            if (not_num.includes(last_sign)) { pressed('(') }
+            else { pressed(')') }
+        }
+        function update_screen() {
+            let string = input.toString();
+            let withoutCommas = string.replaceAll(',', '');
+            let formatTimesSign = withoutCommas.replaceAll('*', '×');
+            let formatMinusSign = formatTimesSign.replaceAll('-', '−');
+            screen.innerText = formatMinusSign
+        }
+
+        function rem() {
+            input.pop()
+            update_screen()
+        }
+
+        function solve() {
+            let string = input.toString();
+            let withoutCommas = string.replaceAll(',', '');
+            screen.innerText = math.evaluate(withoutCommas)
+            input = []
+        }
+
+        function clear() {
+            input = []
+            update_screen()
+        }
+
+        function logKey(e) {
+            let regex = /[\d\+\-\*]/g;
+            if (e.key.match(regex)) { pressed(e.key) }
+            if (e.key === 'Enter') { solve() }
+            if (e.key === 'Backspace') { rem() }
+        }
+    </script>
+      <script src="math.js" type="text/javascript"></script>
+
+</body>
+
+</html>
