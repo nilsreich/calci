@@ -6,12 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="manifest" href="manifest.json" />
-    <script type="module">
-        import 'https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate';
-        const el = document.createElement('pwa-update');
-        document.body.appendChild(el);
-     </script>
     <style>
         body {
             font-family: Roboto;
@@ -36,6 +30,8 @@
             font-size: clamp(1rem, 30vw, 8rem);
             flex-grow: 1;
             min-height: 150px;
+            width: 100%;
+            overflow: auto;
         }
 
         .keyboard {
