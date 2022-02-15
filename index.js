@@ -83,9 +83,10 @@ function solve() {
   let string = input.toString();
   let withoutCommas = string.replaceAll(",", "");
   let result = math.evaluate(withoutCommas);
-  let format = math.format(result, {lowerExp: -6, upperExp: 6})
-  if (format === undefined) format = "error";
-  screen.innerText = format;
+  let floating_error = math.format(result, {precision: 14})
+  let format = math.format(floating_error, {lowerExp: -6, upperExp: 6});
+  if (floating_error === undefined) floating_error = "error";
+  screen.innerText = floating_error;
   history.push(withoutCommas);
   update_historyscreen();
   input = [];
