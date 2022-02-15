@@ -55,7 +55,11 @@ function update_inputscreen() {
   let formatTimesSign = withoutCommas.replaceAll("*", "×");
   let formatMinusSign = formatTimesSign.replaceAll("-", "−");
   screen.innerText = formatMinusSign;
-  
+  screen.scrollTo({
+    top: 0,
+    left: 4000,
+    behavior: 'smooth'
+  })
 }
 
 function update_historyscreen() {
