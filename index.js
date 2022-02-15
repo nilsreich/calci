@@ -1,114 +1,104 @@
-//Variables
-let screen = document.getElementById("input_screen");
-let history_screen = document.getElementById("history");
-let input = [];
-let history = [];
-//EventListener
-//Number + / %
-let num_btns = document.querySelectorAll(".num");
-num_btns.forEach((item) => {
+//
+// INIT: global Variables, EventListener, KeyboardInput
+//
+import { create, all } from 'mathjs'
+
+const config = { }
+const math = create(all, config)
+let input_string = ""; // Hier gehen alle Eingaben als Entity rein
+let history = []; // Nachdem Enter gedrueckt wurde, werden hier Aufg und Loesung reingeschrieben
+
+document.querySelector(".rem").addEventListener("click", () => rem()); // Loeschen
+document.querySelector(".eqn").addEventListener("click", () => solve()); // Enter, Loesen
+document.querySelector(".ac").addEventListener("click", () => clear()); // AC, Eingabe reset
+
+// Jeder regulaere Button bekommt einen EventListener und schreibt innerText in inputString
+document.querySelectorAll(".entity").forEach((item) => {
   item.addEventListener("click", (event) => {
     pressed(item.innerText);
   });
 });
 
-//times
-let times_btn = document.querySelectorAll(".times")[0];
-times_btn.addEventListener("click", () => pressed("*"));
-
-//Bracket open
-let bracket_btn_open = document.querySelectorAll(".bracket")[0];
-bracket_btn_open.addEventListener("click", () => pressed("("));
-
-//Bracket close
-let bracket_btn_close = document.querySelectorAll(".bracket")[1];
-bracket_btn_close.addEventListener("click", () => pressed(")"));
-
-//substract
-let sub_btn = document.querySelectorAll(".minus")[0];
-sub_btn.addEventListener("click", () => pressed("-"));
-
-//Remove Button
-let rem_btn = document.getElementsByClassName("rem")[0];
-rem_btn.addEventListener("click", () => rem());
-
-//eqn Button
-let eqn_btn = document.getElementsByClassName("eqn")[0];
-eqn_btn.addEventListener("click", () => solve());
-
-// AC Button
-let ac_btn = document.getElementsByClassName("ac")[0];
-ac_btn.addEventListener("click", () => clear());
-
-// KeyDown
-document.addEventListener("keydown", logKey);
-
-//Functions
-function pressed(num) {
-  input.push(num);
-  update_inputscreen();
-}
-
-function update_inputscreen() {
-  let string = input.toString();
-  let withoutCommas = string.replaceAll(",", "");
-  let formatTimesSign = withoutCommas.replaceAll("*", "×");
-  let formatMinusSign = formatTimesSign.replaceAll("-", "−");
-  screen.innerText = formatMinusSign;
-  screen.scrollTo({
-    top: 0,
-    left: 4000,
-    behavior: 'smooth'
-  })
-}
-
-function update_historyscreen() {
-  let string = history.slice(-1).toString();
-  let withoutCommas = string.replaceAll(",", "");
-  let result = math.evaluate(withoutCommas);
-  let formated_result = math.format(result, {lowerExp: -6, upperExp: 6});
-  let complete_string = withoutCommas + "=" + formated_result;
-  let formatTimesSign = complete_string.replaceAll("*", "×");
-  let formatMinusSign = formatTimesSign.replaceAll("-", "−");
-  let div = document.createElement("div");
-  history_screen.prepend(formatMinusSign, div);
-}
-
-function rem() {
-  input.pop();
-  update_inputscreen();
-}
-
-function solve() {
-  let string = input.toString();
-  let withoutCommas = string.replaceAll(",", "");
-  let result = math.evaluate(withoutCommas);
-  let floating_error = math.format(result, {precision: 14})
-  let format = math.format(floating_error, {lowerExp: -6, upperExp: 6});
-  if (floating_error === undefined) floating_error = "error";
-  screen.innerText = floating_error;
-  history.push(withoutCommas);
-  update_historyscreen();
-  input = [];
-}
-
-function clear() {
-  input = [];
-  update_inputscreen();
-}
+document.addEventListener("keydown", logKey); // Tastendruck EventListener
 
 function logKey(e) {
-  let regex = /[\d\+\-\*\(\)\.\^]/g;
+  let regex = /[\d\+\(\)\.\^\/]/g; // der RegExAusdruck der gueltigen Tasten
   if (e.key.match(regex)) {
-    pressed(e.key);
+    // Stimmt Regex mit aktuellen Tastendruck ueberein, ...
+    pressed(e.key); //... dann wird Tastensymbol in INputString geschrieben
   }
   if (e.key === "Enter") {
-    solve();
+    solve(); // Bei Enter wird geloest
   }
   if (e.key === ",") {
-    pressed('.');
+    pressed("."); // Bei Komma wird ein Punkt eingefuegt, wegen Math.js
+  }
+  if (e.key === "*") {
+    pressed("×"); // Bei * wird ein × eingefuegt
+  }
+  if (e.key === "-") {
+    pressed("−"); // bei einem Bindestrich wird ein Minus eingefuegt
   }
   if (e.key === "Backspace") {
-    rem();
+    rem(); // Backspace loescht das letzte Zeichen
   }
 }
+
+//
+// Die Funktionen
+//
+
+// Die RenderFunktion formatiert den AscII InputString zur Entity, gibt auf dem 
+// Bildschirm aus und Scrollt zum letzten Zeichen horizontal
+const render = (e) => {
+  let screen = document.getElementById("input_screen");
+  screen.innerText = e; //formatiere asci Zeichen zu Entity
+  screen.scrollTo({ left: 4000, behavior: "smooth" }); // scrolle die Ausgabe ganz nach rechts
+};
+
+// DIese Funktion fuegt einen Charachter an den InputString an und triggert das Rendern
+const pressed = (char) => {
+  input_string += char;
+  render(input_string);
+};
+
+const history_update = (aufg, lsg) => {
+  history.push(aufg);
+  history.push(lsg);
+  let div = document.createElement("div");
+  document
+    .getElementById("history")
+    .prepend(aufg + " = " + lsg, div);
+};
+
+const rem = () => {
+  input_string = input_string.slice(0, -1);
+  render(input_string);
+};
+
+const evalFormat = (aufg) => {
+  let asci_string = entity2asci(aufg)
+  let result = math.evaluate(asci_string);
+  let precision = math.format(result, { precision: 14 });
+  let format = precision.replaceAll("-", "−");
+  return format;
+};
+
+// Da die Button immer eine Entity
+const entity2asci = (entity) => {
+  let asci_times = entity.replaceAll("×","*");
+  let asci_string = asci_times.replaceAll("−","-");
+  return asci_string;
+};
+
+const solve = () => {
+  let lsg = evalFormat(input_string);
+  history_update(input_string, lsg);
+  render(lsg);
+  input_string = "";
+};
+
+const clear = () => {
+  input_string = " ";
+  render(input_string);
+};

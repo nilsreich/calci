@@ -1,67 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="index.css" />
-  </head>
 
-  <body>
-    <div class="calculator">
-      <div id="screen" class="screen">
-        <div id="input_screen" class="input_screen"></div>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="index.css" />
+</head>
+
+<body>
+  <div class="calculator">
+    <div id="screen" class="screen">
+      <div id="input_screen" class="input_screen"></div>
+      <div class="history_wrapper">
         <div id="history" class="history"></div>
       </div>
-      <div class="extrafunction">
-        <div class="extrakey">
-          x<span style="font-size:0.9rem;vertical-align:top">n</span>
-        </div>
-        <div class="extrakey">DEG</div>
-        <div class="extrakey">Pi</div>
-        <div class="extrakey">sqrt</div>
-      </div>
-
-      <div class="keyboard">
-        <div class="key ac ripple">AC</div>
-        <div class="key bracket fcn ripple">(</div>
-        <div class="bracket key fcn ripple">)</div>
-        <div class="num key fcn ripple">/</div>
-        <div class="num key ripple">7</div>
-        <div class="num key ripple">8</div>
-        <div class="num key ripple">9</div>
-        <div class="key times fcn ripple">&times;</div>
-        <div class="num key ripple">4</div>
-        <div class="num key ripple">5</div>
-        <div class="num key ripple">6</div>
-        <div class="minus key fcn ripple">&minus;</div>
-        <div class="num key ripple">1</div>
-        <div class="num key ripple">2</div>
-        <div class="num key ripple">3</div>
-        <div class="num key fcn ripple">+</div>
-        <div class="num key ripple">0</div>
-        <div class="num key ripple">.</div>
-        <div class="rem key ripple">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            style="width:32px"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M12 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M3 12l6.414 6.414a2 2 0 001.414.586H19a2 2 0 002-2V7a2 2 0 00-2-2h-8.172a2 2 0 00-1.414.586L3 12z"
-            />
-          </svg>
-        </div>
-        <div class="key eqn ripple">=</div>
-      </div>
     </div>
-    <script src="./index.js"></script>
-    <script src="math.js" type="text/javascript" defer></script>
-  </body>
+    <div class="extrafunction">
+      <div class="extrakey">
+        x<span style="font-size:0.9rem;vertical-align:top">n</span>
+      </div>
+      <div class="extrakey">DEG</div>
+      <div class="extrakey">Pi</div>
+      <div class="extrakey">sqrt</div>
+    </div>
+
+    <div class="keyboard">
+      <div class="key ac">AC</div>
+      <div class="entity key">(</div>
+      <div class="entity key">)</div>
+      <div class="entity key">/</div>
+      <div class="entity key">7</div>
+      <div class="entity key">8</div>
+      <div class="entity key">9</div>
+      <div class="entity key">×</div>
+      <div class="entity key">4</div>
+      <div class="entity key">5</div>
+      <div class="entity key">6</div>
+      <div class="entity key">−</div>
+      <div class="entity key">1</div>
+      <div class="entity key">2</div>
+      <div class="entity key">3</div>
+      <div class="entity key">+</div>
+      <div class="entity key">0</div>
+      <div class="entity key">.</div>
+      <div class="key rem">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" style="width:32px" viewBox="0 0 24 24"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M3 12l6.414 6.414a2 2 0 001.414.586H19a2 2 0 002-2V7a2 2 0 00-2-2h-8.172a2 2 0 00-1.414.586L3 12z" />
+        </svg>
+      </div>
+      <div class="key eqn">=</div>
+    </div>
+  </div>
+  <script type="module" src="./index.js"></script>
+</body>
+
 </html>
