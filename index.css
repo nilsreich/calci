@@ -16,19 +16,24 @@ body {
     border: 0px solid;
     border-bottom-left-radius: 25px;
     border-bottom-right-radius: 25px;
-    text-align: end;
-    font-size: clamp(1rem, 30vw, 8rem);
     flex-grow: 1;
     min-height: 150px;
     width: 100%;
     overflow: auto;
 }
 
-.history{
-
-    padding-top: 5px;
+.input_screen {
     text-align: end;
-    font-size: clamp(0.5rem, 30vw, 3rem);
+    font-size: clamp(1rem, 30vw, 8rem);
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap
+}
+
+.history{
+    text-align:left;
+    padding-top: 5px;
+    font-size: clamp(0.5rem, 30vw, 2rem);
     flex-grow: 1;
     width: 100%;
     overflow: auto;

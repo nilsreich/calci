@@ -55,12 +55,15 @@ function update_inputscreen() {
   let formatTimesSign = withoutCommas.replaceAll("*", "×");
   let formatMinusSign = formatTimesSign.replaceAll("-", "−");
   screen.innerText = formatMinusSign;
+  
 }
 
 function update_historyscreen() {
   let string = history.slice(-1).toString();
   let withoutCommas = string.replaceAll(",", "");
-  let complete_string = withoutCommas + "=" + math.evaluate(withoutCommas);
+  let result = math.evaluate(withoutCommas);
+  let formated_result = math.format(result, {lowerExp: -6, upperExp: 6});
+  let complete_string = withoutCommas + "=" + formated_result;
   let formatTimesSign = complete_string.replaceAll("*", "×");
   let formatMinusSign = formatTimesSign.replaceAll("-", "−");
   let div = document.createElement("div");
@@ -76,8 +79,9 @@ function solve() {
   let string = input.toString();
   let withoutCommas = string.replaceAll(",", "");
   let result = math.evaluate(withoutCommas);
-  if (result === undefined) result = "error";
-  screen.innerText = result;
+  let format = math.format(result, {lowerExp: -6, upperExp: 6})
+  if (format === undefined) format = "error";
+  screen.innerText = format;
   history.push(withoutCommas);
   update_historyscreen();
   input = [];
