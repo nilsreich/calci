@@ -50,23 +50,22 @@ function pressed(num) {
 }
 
 function update_inputscreen() {
-  let string = input.toString();
-  let withoutCommas = string.replaceAll(",", "");
-  let formatTimesSign = withoutCommas.replaceAll("*", "×");
+  let string = input.join();
+  let formatTimesSign = string.replaceAll("*", "×");
   let formatMinusSign = formatTimesSign.replaceAll("-", "−");
   screen.innerText = formatMinusSign;
   screen.scrollTo({
     top: 0,
     left: 4000,
-    behavior: 'smooth'
-  })
+    behavior: "smooth",
+  });
 }
 
 function update_historyscreen() {
   let string = history.slice(-1).toString();
   let withoutCommas = string.replaceAll(",", "");
   let result = math.evaluate(withoutCommas);
-  let formated_result = math.format(result, {lowerExp: -6, upperExp: 6});
+  let formated_result = math.format(result, { lowerExp: -6, upperExp: 6 });
   let complete_string = withoutCommas + "=" + formated_result;
   let formatTimesSign = complete_string.replaceAll("*", "×");
   let formatMinusSign = formatTimesSign.replaceAll("-", "−");
@@ -83,8 +82,8 @@ function solve() {
   let string = input.toString();
   let withoutCommas = string.replaceAll(",", "");
   let result = math.evaluate(withoutCommas);
-  let floating_error = math.format(result, {precision: 14})
-  let format = math.format(floating_error, {lowerExp: -6, upperExp: 6});
+  let floating_error = math.format(result, { precision: 14 });
+  let format = math.format(floating_error, { lowerExp: -6, upperExp: 6 });
   if (floating_error === undefined) floating_error = "error";
   screen.innerText = floating_error;
   history.push(withoutCommas);
@@ -106,7 +105,7 @@ function logKey(e) {
     solve();
   }
   if (e.key === ",") {
-    pressed('.');
+    pressed(".");
   }
   if (e.key === "Backspace") {
     rem();
