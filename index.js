@@ -97,12 +97,15 @@ function clear() {
 }
 
 function logKey(e) {
-  let regex = /[\d\+\-\*\(\)]/g;
+  let regex = /[\d\+\-\*\(\)\.\^]/g;
   if (e.key.match(regex)) {
     pressed(e.key);
   }
   if (e.key === "Enter") {
     solve();
+  }
+  if (e.key === ",") {
+    pressed('.');
   }
   if (e.key === "Backspace") {
     rem();
