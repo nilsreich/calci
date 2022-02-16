@@ -2,6 +2,9 @@ import { VitePWA } from 'vite-plugin-pwa'
 export default {
   plugins: [
     VitePWA({
+      workbox: {
+        globPatterns: [],
+      },
       includeAssets: ['favicon-16x16.png', 'favicon.ico'],  
       manifest: {
         name: 'Name of your app',
