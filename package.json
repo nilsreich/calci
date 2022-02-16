@@ -4,6 +4,7 @@
     "build": "parcel build index.html"
   },
   "dependencies": {
+    "@parcel/transformer-webmanifest": "^2.3.1",
     "@pwabuilder/pwaupdate": "^0.2.0",
     "mathjs": "^10.1.1",
     "parcel": "^2.3.1"
