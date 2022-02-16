@@ -9,13 +9,9 @@
   <link rel="stylesheet" href="index.css" />
   <link rel="manifest" href="manifest.json" />
   <script type="module">
-      let src = "https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate";
-  import(src).then(
-    () => {
-      const el = document.createElement('pwa-update');
+    import 'https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate';
+    const el = document.createElement('pwa-update');
     document.body.appendChild(el);
-    }
-  );
  </script>
 </head>
 

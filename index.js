@@ -1,7 +1,7 @@
 //
 // INIT: global Variables, EventListener, KeyboardInput
 //
-import { evaluate } from 'mathjs/lib/esm/number.js'
+import * as  evaluate from 'mathjs/lib/esm/number'
 
 let input_string = ""; // Hier gehen alle Eingaben als Entity rein
 let history = []; // Nachdem Enter gedrueckt wurde, werden hier Aufg und Loesung reingeschrieben
