@@ -2,7 +2,12 @@
 // INIT: global Variables, EventListener, KeyboardInput
 //
 import { create, all } from 'mathjs/number'
+import { registerSW } from "virtual:pwa-register";
 
+if ("serviceWorker" in navigator) {
+  // && !/localhost/.test(window.location)) {
+  registerSW();
+}
 const math = create(all)
 
 let input_string = ""; // Hier gehen alle Eingaben als Entity rein
