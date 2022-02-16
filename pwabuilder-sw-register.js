@@ -1,4 +1,4 @@
-// This is the "Offline page" service worker
+// This is the "Offline copy of pages" service worker
 
 // Add this below content to your HTML page inside a <script type="module"></script> tag, or add the js file to your page at the very top to register service worker
 // If you get an error about not being able to import, double check that you have type="module" on your <script /> tag

@@ -46,11 +46,10 @@ function logKey(e) {
 // Die Funktionen
 //
 
-// Die RenderFunktion formatiert den AscII InputString zur Entity, gibt auf dem 
 // Bildschirm aus und Scrollt zum letzten Zeichen horizontal
 const render = (e) => {
   let screen = document.getElementById("input_screen");
-  screen.innerText = e; //formatiere asci Zeichen zu Entity
+  screen.innerText = e;
   screen.scrollTo({ left: 4000, behavior: "smooth" }); // scrolle die Ausgabe ganz nach rechts
 };
 
