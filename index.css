@@ -19,9 +19,7 @@ body {
     flex-grow: 1;
     min-height: 150px;
     width: 100%;
-    overflow:auto;
-    overflow-x: hidden;
-
+    
 }
 
 .input_screen {
@@ -38,8 +36,9 @@ body {
     font-size: clamp(0.5rem, 10vw, 1.5rem);
     width: 100%;
     margin-left: 15px;
-    overflow-y: auto;
+    overflow-y: visible;
     overflow-x: hidden;
+    height:190px;
 }
 
 .keyboard {

@@ -1,10 +1,8 @@
 //
 // INIT: global Variables, EventListener, KeyboardInput
 //
-import { create, all } from 'mathjs'
+import { evaluate } from 'mathjs/lib/esm/number.js'
 
-const config = { }
-const math = create(all, config)
 let input_string = ""; // Hier gehen alle Eingaben als Entity rein
 let history = []; // Nachdem Enter gedrueckt wurde, werden hier Aufg und Loesung reingeschrieben
 
@@ -69,6 +67,9 @@ const history_update = (aufg, lsg) => {
   document
     .getElementById("history")
     .prepend(aufg + " = " + lsg, div);
+    document
+    .getElementById("history").scrollTo({ top: 0, behavior: "smooth" }); // scrolle die Ausgabe ganz nach oben
+
 };
 
 const rem = () => {
@@ -78,10 +79,8 @@ const rem = () => {
 
 const evalFormat = (aufg) => {
   let asci_string = entity2asci(aufg)
-  let result = math.evaluate(asci_string);
-  let precision = math.format(result, { precision: 14 });
-  let format = precision.replaceAll("-", "−");
-  return format;
+  let result = evaluate(asci_string);
+  return result;
 };
 
 // Da die Button immer eine Entity
@@ -92,6 +91,7 @@ const entity2asci = (entity) => {
 };
 
 const solve = () => {
+
   let lsg = evalFormat(input_string);
   history_update(input_string, lsg);
   render(lsg);
