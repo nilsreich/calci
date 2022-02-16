@@ -1,7 +1,9 @@
 //
 // INIT: global Variables, EventListener, KeyboardInput
 //
-import * as  evaluate from 'mathjs/lib/esm/number'
+import { create, all } from 'mathjs/number'
+
+const math = create(all)
 
 let input_string = ""; // Hier gehen alle Eingaben als Entity rein
 let history = []; // Nachdem Enter gedrueckt wurde, werden hier Aufg und Loesung reingeschrieben
@@ -78,7 +80,7 @@ const rem = () => {
 
 const evalFormat = (aufg) => {
   let asci_string = entity2asci(aufg)
-  let result = evaluate(asci_string);
+  let result = math.evaluate(asci_string);
   return result;
 };
 
